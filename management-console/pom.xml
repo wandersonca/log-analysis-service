@@ -12,10 +12,15 @@
   <artifactId>management-console</artifactId>
   <packaging>war</packaging>
 
-  <name>management-console Maven Webapp</name>
+  <name>management-console</name>
   <url>http://maven.apache.org</url>
 
   <dependencies>
+    <dependency>
+      <groupId>ec.final</groupId>
+      <artifactId>persistance</artifactId>
+      <version>1.0.0</version>
+    </dependency>
 
     <!-- First declare the APIs we depend on and need for compilation.
             All of them are provided by JBoss EAP -->

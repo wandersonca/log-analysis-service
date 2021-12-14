@@ -19,9 +19,9 @@ under the License.
 -->
 <rss version="0.91">
   <channel>
-    <title>management-console Maven Webapp - Checkstyle report</title>
+    <title>management-console - Checkstyle report</title>
     <link>http://maven.apache.org</link>
-    <description>management-console Maven Webapp - Checkstyle report</description>
+    <description>management-console - Checkstyle report</description>
     <language>en-us</language>
     <copyright>&#169;2021 JBoss by Red Hat</copyright>
     <item>
