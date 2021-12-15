@@ -1,6 +1,0 @@
-#Mon Dec 13 21:38:26 PST 2021
-/home/will/CP630-FinalProject/log-analysis-service/management-console/src/main/java/ec/finalproject/servlet/ApplicationServlet.java=1639354459000
-/home/will/CP630-FinalProject/log-analysis-service/management-console/src/main/java/ec/finalproject/servlet/MetricServlet.java=1639354459000
-/home/will/CP630-FinalProject/log-analysis-service/management-console/src/main/java/ec/finalproject/servlet/DashboardServlet.java=1639275468000
-configuration*?=438AB2BA91ACB0EBDDE277A145344F43FB9CE07C
-module-resource*?\:/wildfly-checkstyle/suppressions.xml=DD3FD5987C62C3034A4613F83C42B24683BCFC2E

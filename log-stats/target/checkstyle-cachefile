@@ -1,6 +1,0 @@
-#Mon Dec 13 21:39:13 PST 2021
-/home/will/CP630-FinalProject/log-analysis-service/log-stats/src/main/java/ec/finalproject/stats/LogCounter.java=1639344813000
-/home/will/CP630-FinalProject/log-analysis-service/log-stats/src/main/java/ec/finalproject/stats/LogMDB.java=1639375467000
-/home/will/CP630-FinalProject/log-analysis-service/log-stats/src/main/java/ec/finalproject/stats/LogCounterLocal.java=1639344769000
-configuration*?=38C952C1A1C063B88B389DA22C6DB4D88B9C3862
-module-resource*?\:/wildfly-checkstyle/suppressions.xml=DD3FD5987C62C3034A4613F83C42B24683BCFC2E
