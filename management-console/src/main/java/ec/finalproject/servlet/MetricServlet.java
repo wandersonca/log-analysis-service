@@ -11,23 +11,23 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.RequestDispatcher;
 
 import ec.finalproject.persistance.model.Metric;
-import ec.finalproject.persistance.ApplicationRepository;
-import ec.finalproject.persistance.MetricRepository;
+import ec.finalproject.persistance.ApplicationDAO;
+import ec.finalproject.persistance.MetricDAO;
 
 @WebServlet("/metric")
 public class MetricServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @EJB
-    private MetricRepository metricRepository;
+    private MetricDAO MetricDAO;
 
     @EJB
-    private ApplicationRepository applicationRepository;
+    private ApplicationDAO ApplicationDAO;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("apps", applicationRepository.getApplications());
-        request.setAttribute("metrics", metricRepository.getMetrics());
+        request.setAttribute("apps", ApplicationDAO.getApplications());
+        request.setAttribute("metrics", MetricDAO.getMetrics());
         RequestDispatcher resultView = request.getRequestDispatcher("metric.jsp");
         resultView.forward(request, response);
     }
@@ -39,8 +39,8 @@ public class MetricServlet extends HttpServlet {
         metric.setLogLevel(request.getParameter("logLevel"));
         metric.setMessageRegex(request.getParameter("regex"));
         Long appId = Long.parseLong(request.getParameter("application"));
-        metric.setApplication(applicationRepository.getApplicationById(appId));
-        metricRepository.saveMetric(metric);
+        metric.setApplication(ApplicationDAO.getApplicationById(appId));
+        MetricDAO.saveMetric(metric);
         doGet(request, response);
     }
 }

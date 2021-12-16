@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContextType;
 import ec.finalproject.persistance.model.Application;
 
 @Stateful
-public class ApplicationRepository {
+public class ApplicationDAO {
     @PersistenceContext(unitName="logs-database",type = PersistenceContextType.TRANSACTION)
     private EntityManager em;
 

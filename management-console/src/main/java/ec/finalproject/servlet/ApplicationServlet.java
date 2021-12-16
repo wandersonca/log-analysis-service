@@ -11,18 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.RequestDispatcher;
 
 import ec.finalproject.persistance.model.Application;
-import ec.finalproject.persistance.ApplicationRepository;
+import ec.finalproject.persistance.ApplicationDAO;
 
 @WebServlet("/application")
 public class ApplicationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @EJB
-    private ApplicationRepository applicationRepository;
+    private ApplicationDAO ApplicationDAO;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("apps", applicationRepository.getApplications());
+        request.setAttribute("apps", ApplicationDAO.getApplications());
         RequestDispatcher resultView = request.getRequestDispatcher("application.jsp");
         resultView.forward(request, response);
     }
@@ -32,7 +32,7 @@ public class ApplicationServlet extends HttpServlet {
         Application application = new Application();
         application.setName(request.getParameter("name"));
         application.setDescription(request.getParameter("description"));
-        applicationRepository.saveApplication(application);
+        ApplicationDAO.saveApplication(application);
         doGet(request, response);
     }
 }

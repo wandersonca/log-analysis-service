@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContextType;
 import ec.finalproject.persistance.model.Metric;
 
 @Stateful
-public class MetricRepository {
+public class MetricDAO {
     @PersistenceContext(unitName="logs-database",type = PersistenceContextType.TRANSACTION)
     private EntityManager em;
 
