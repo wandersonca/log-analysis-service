@@ -1,17 +1,15 @@
 package ec.finalproject.persistance;
 
+import ec.finalproject.persistance.model.Metric;
 import java.util.List;
-
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
-import ec.finalproject.persistance.model.Metric;
-
 @Stateful
 public class MetricDAO {
-    @PersistenceContext(unitName="logs-database",type = PersistenceContextType.TRANSACTION)
+    @PersistenceContext(unitName = "logs-database", type = PersistenceContextType.TRANSACTION)
     private EntityManager em;
 
     public void saveMetric(Metric entity) {

@@ -13,15 +13,9 @@ import javax.ws.rs.PathParam;
 
 import org.jboss.logging.Logger;
 
-@JMSDestinationDefinitions(
-    value = {
-        @JMSDestinationDefinition(
-            name = "java:/queue/LogQueue",
-            interfaceName = "javax.jms.Queue",
-            destinationName = "LogQueue"
-        )
-    }
-)
+@JMSDestinationDefinitions(value = {
+        @JMSDestinationDefinition(name = "java:/queue/LogQueue", interfaceName = "javax.jms.Queue", destinationName = "LogQueue")
+})
 
 @Path("/")
 public class Log {
@@ -38,7 +32,7 @@ public class Log {
     public void postFile(@PathParam("appId") Long appId, String input) throws Exception {
         LOGGER.debug("/upload/file Received: " + appId + "\n" + input);
         String[] lines = input.split(System.lineSeparator());
-        for(String line : lines) {
+        for (String line : lines) {
             MapMessage mapMessage = context.createMapMessage();
             mapMessage.setLong("appId", appId);
             mapMessage.setString("message", line);

@@ -2,6 +2,7 @@ package ec.finalproject.stats;
 
 import ec.finalproject.persistance.model.Metric;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
@@ -10,13 +11,13 @@ import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import org.jboss.logging.Logger;
-
+import java.util.regex.Pattern;
 
 @MessageDriven(name = "LogQueue", activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "queue/LogQueue"),
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
         @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
-        @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "1")})
+        @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "1") })
 public class LogMDB implements MessageListener {
     private static final Logger LOGGER = Logger.getLogger(LogMDB.class);
 
@@ -25,17 +26,16 @@ public class LogMDB implements MessageListener {
 
     private Date parseDateInterval(String date, String time) {
         LOGGER.trace("Date: " + date + " Time: " + time);
+        Calendar cal = Calendar.getInstance();
 
-        int month = Integer.parseInt(date.substring(0, 2));
-        int year = Integer.parseInt(date.substring(2, 4)) + 100; // Date starts counting years at 1900? Y2K...
-        int day = Integer.parseInt(date.substring(4, 6));
+        cal.set(Calendar.YEAR, Integer.parseInt(date.substring(2, 4)));
+        cal.set(Calendar.MONTH, Integer.parseInt(date.substring(0, 2)) - 1);
+        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(4, 6) + 1));
+        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.substring(0, 2)));
+        cal.set(Calendar.MINUTE, Integer.parseInt(time.substring(2, 4)));
+        cal.set(Calendar.SECOND, 0); // Round to the nearest minute
 
-        int hour = Integer.parseInt(time.substring(0, 2));
-        int minute = Integer.parseInt(time.substring(2, 4));
-        //int second = Integer.parseInt(time.substring(4, 6));
-        int second = 0; // Round to nearest minute
-        LOGGER.trace("month: " + month + " year: " + year + " day: " + day + " hour: " + hour + " minute: " + minute + " second: " + second);
-        return new Date(year, month, day, hour, minute, second);
+        return cal.getTime();
     }
 
     public void onMessage(Message rcvMessage) {
@@ -46,7 +46,7 @@ public class LogMDB implements MessageListener {
                 long appId = msg.getLong("appId");
                 String[] columns = msg.getString("message").split(" ");
                 LOGGER.debug("Received Message appId: " + appId + " message: " + msg.getString("message"));
-                for(Metric metric : MetricCounter.getMetricsByApplicationId(appId)) {
+                for (Metric metric : MetricCounter.getMetricsByApplicationId(appId)) {
                     LOGGER.debug("Metric found: " + metric.getName());
                     if (columns.length >= 4) {
                         String logLevel = columns[3];
@@ -56,7 +56,7 @@ public class LogMDB implements MessageListener {
                         }
                         LOGGER.debug("Log level matches: " + logLevel + " == " + metric.getLogLevel());
                         String message = String.join(" ", Arrays.copyOfRange(columns, 5, columns.length));
-                        if (!message.matches(metric.getMessageRegex())) {
+                        if (!Pattern.compile(metric.getMessageRegex()).matcher(message).find()) {
                             LOGGER.debug("Message does not match: " + metric.getMessageRegex() + " != " + message);
                             continue;
                         }

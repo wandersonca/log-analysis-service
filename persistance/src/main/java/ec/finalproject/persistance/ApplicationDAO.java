@@ -1,17 +1,15 @@
 package ec.finalproject.persistance;
 
+import ec.finalproject.persistance.model.Application;
 import java.util.List;
-
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
-import ec.finalproject.persistance.model.Application;
-
 @Stateful
 public class ApplicationDAO {
-    @PersistenceContext(unitName="logs-database",type = PersistenceContextType.TRANSACTION)
+    @PersistenceContext(unitName = "logs-database", type = PersistenceContextType.TRANSACTION)
     private EntityManager em;
 
     public void saveApplication(Application entity) {
@@ -23,6 +21,7 @@ public class ApplicationDAO {
     }
 
     public Application getApplicationById(Long id) {
-        return em.createQuery("SELECT a FROM Application a WHERE a.id = :id", Application.class).setParameter("id", id).getSingleResult();
+        return em.createQuery("SELECT a FROM Application a WHERE a.id = :id", Application.class).setParameter("id", id)
+                .getSingleResult();
     }
 }

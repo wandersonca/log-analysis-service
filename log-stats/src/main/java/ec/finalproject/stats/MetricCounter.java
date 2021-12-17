@@ -1,6 +1,7 @@
 package ec.finalproject.stats;
 
 import ec.finalproject.persistance.ApplicationDAO;
+import ec.finalproject.persistance.MetricCountDAO;
 import ec.finalproject.persistance.MetricDAO;
 import ec.finalproject.persistance.model.Application;
 import ec.finalproject.persistance.model.Metric;
@@ -27,6 +28,9 @@ public class MetricCounter {
     @EJB
     private MetricDAO metricDAO;
 
+    @EJB
+    private MetricCountDAO metricCountDAO;
+
     private Map<Long, List<Metric>> metricsByApplicationId;
     private Map<String, MetricCount> metricCounts;
 
@@ -44,11 +48,11 @@ public class MetricCounter {
     private void updateCache() {
         LOGGER.debug("Updating local list of metrics and applications from Database...");
         metricsByApplicationId.clear();
-        for(Application application : applicationDAO.getApplications()) {
+        for (Application application : applicationDAO.getApplications()) {
             LOGGER.debug("Updating metrics for application " + application.getName());
             metricsByApplicationId.put(application.getId(), new ArrayList<Metric>());
         }
-        for(Metric metric : metricDAO.getMetrics()) {
+        for (Metric metric : metricDAO.getMetrics()) {
             LOGGER.debug("Updating metric " + metric.getName());
             metricsByApplicationId.get(metric.getApplication().getId()).add(metric);
         }
@@ -57,19 +61,20 @@ public class MetricCounter {
     @Schedule(second = "*/15", minute = "*", hour = "*", persistent = false)
     private void saveStats() {
         LOGGER.info("Saving stats to the Database...");
-        for(MetricCount metricCount : metricCounts.values()) {
-            LOGGER.info("Saving metric count for: " + metricCount.getInterval() + ": " + metricCount.getMetric().getName() + ": " + metricCount.getCount());
+        for (MetricCount metricCount : metricCounts.values()) {
+            LOGGER.info("Saving metric count for: " + metricCount.getId() + ": " + metricCount.getCount());
+            metricCountDAO.saveMetricCount(metricCount);
         }
         metricCounts.clear();
     }
 
     public void incrementMetric(Metric metric, Date date) {
         LOGGER.debug("Incrementing metric " + metric.getName() + " for date " + date);
-        String key = metric.getId() + "-"  +date.toString();
-        if(metricCounts.containsKey(key)) {
+        String key = metric.getId() + "-" + date.toString();
+        if (metricCounts.containsKey(key)) {
             metricCounts.get(key).setCount(metricCounts.get(key).getCount() + 1);
         } else {
-            metricCounts.put(key, new MetricCount(date, metric, 1));
+            metricCounts.put(key, new MetricCount(key, date, metric, 1));
         }
     }
 }
