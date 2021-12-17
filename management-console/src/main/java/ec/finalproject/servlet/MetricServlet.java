@@ -27,7 +27,13 @@ public class MetricServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("apps", ApplicationDAO.getApplications());
-        request.setAttribute("metrics", MetricDAO.getMetrics());
+        String applicationId = request.getParameter("appid");
+        if (applicationId != null && applicationId.length() > 0) {
+            request.setAttribute("appName", ApplicationDAO.getApplicationById(Long.parseLong(applicationId)).getName());
+            request.setAttribute("metrics", MetricDAO.getMetricsByApplicationId(Long.parseLong(applicationId)));
+        } else {
+            request.setAttribute("metrics", MetricDAO.getMetrics());
+        }
         RequestDispatcher resultView = request.getRequestDispatcher("metric.jsp");
         resultView.forward(request, response);
     }
@@ -42,5 +48,11 @@ public class MetricServlet extends HttpServlet {
         metric.setApplication(ApplicationDAO.getApplicationById(appId));
         MetricDAO.saveMetric(metric);
         doGet(request, response);
+    }
+
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Long id = Long.parseLong(request.getParameter("metricid"));
+        MetricDAO.deleteMetric(id);
     }
 }

@@ -24,4 +24,9 @@ public class ApplicationDAO {
         return em.createQuery("SELECT a FROM Application a WHERE a.id = :id", Application.class).setParameter("id", id)
                 .getSingleResult();
     }
+
+    public void deleteApplication(Long id) {
+        Application entity = em.find(Application.class, id);
+        em.remove(entity);
+    }
 }

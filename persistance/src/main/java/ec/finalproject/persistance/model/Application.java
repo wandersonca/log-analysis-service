@@ -1,10 +1,14 @@
 package ec.finalproject.persistance.model;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -27,6 +31,9 @@ public class Application implements Serializable {
     @NotNull
     private String description;
 
+    @OneToMany(mappedBy = "application", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    private List<Metric> metrics;
+
     public Long getId() {
         return id;
     }
@@ -41,6 +48,14 @@ public class Application implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Metric> getMetrics() {
+        return metrics;
+    }
+
+    public void setMetrics(List<Metric> metrics) {
+        this.metrics = metrics;
     }
 
     public String getDescription() {

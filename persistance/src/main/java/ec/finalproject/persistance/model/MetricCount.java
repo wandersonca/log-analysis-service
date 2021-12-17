@@ -2,8 +2,11 @@ package ec.finalproject.persistance.model;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,7 +24,9 @@ public class MetricCount implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeInterval;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "metric_id")
+    @NotNull
     private Metric metric;
 
     @NotNull
@@ -33,7 +38,7 @@ public class MetricCount implements Serializable {
     public MetricCount(String id, Date timeInterval, Metric metric, int count) {
         this.id = id;
         this.timeInterval = timeInterval;
-        // this.metric = metric;
+        this.metric = metric;
         this.count = count;
     }
 

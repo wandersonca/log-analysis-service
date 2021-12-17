@@ -18,11 +18,11 @@ public class ApplicationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @EJB
-    private ApplicationDAO ApplicationDAO;
+    private ApplicationDAO applicationDAO;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("apps", ApplicationDAO.getApplications());
+        request.setAttribute("apps", applicationDAO.getApplications());
         RequestDispatcher resultView = request.getRequestDispatcher("application.jsp");
         resultView.forward(request, response);
     }
@@ -32,7 +32,13 @@ public class ApplicationServlet extends HttpServlet {
         Application application = new Application();
         application.setName(request.getParameter("name"));
         application.setDescription(request.getParameter("description"));
-        ApplicationDAO.saveApplication(application);
+        applicationDAO.saveApplication(application);
         doGet(request, response);
+    }
+
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Long id = Long.parseLong(request.getParameter("appid"));
+        applicationDAO.deleteApplication(id);
     }
 }

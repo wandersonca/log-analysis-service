@@ -1,12 +1,17 @@
 package ec.finalproject.persistance.model;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotEmpty;
@@ -25,8 +30,12 @@ public class Metric implements Serializable {
     @NotEmpty
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "application_id")
     private Application application;
+
+    @OneToMany(mappedBy = "metric", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    private List<MetricCount> metricCounts;
 
     private String logLevel;
 
@@ -50,6 +59,14 @@ public class Metric implements Serializable {
 
     public Application getApplication() {
         return application;
+    }
+
+    public List<MetricCount> getMetricCounts() {
+        return metricCounts;
+    }
+
+    public void setMetricCounts(List<MetricCount> metricCounts) {
+        this.metricCounts = metricCounts;
     }
 
     public void setApplication(Application application) {

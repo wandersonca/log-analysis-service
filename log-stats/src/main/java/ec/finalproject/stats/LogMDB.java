@@ -28,12 +28,13 @@ public class LogMDB implements MessageListener {
         LOGGER.trace("Date: " + date + " Time: " + time);
         Calendar cal = Calendar.getInstance();
 
-        cal.set(Calendar.YEAR, Integer.parseInt(date.substring(2, 4)));
-        cal.set(Calendar.MONTH, Integer.parseInt(date.substring(0, 2)) - 1);
-        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(4, 6) + 1));
+        cal.set(Calendar.YEAR, Integer.parseInt(date.substring(2, 4)) + 2000); // add 2000 to year Y2K style year
+        cal.set(Calendar.MONTH, Integer.parseInt(date.substring(0, 2)) - 1); // month is 0-based
+        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(4, 6)));
         cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.substring(0, 2)));
         cal.set(Calendar.MINUTE, Integer.parseInt(time.substring(2, 4)));
         cal.set(Calendar.SECOND, 0); // Round to the nearest minute
+        cal.set(Calendar.MILLISECOND, 0); // Round to the nearest minute
 
         return cal.getTime();
     }
@@ -56,7 +57,7 @@ public class LogMDB implements MessageListener {
                         }
                         LOGGER.debug("Log level matches: " + logLevel + " == " + metric.getLogLevel());
                         String message = String.join(" ", Arrays.copyOfRange(columns, 5, columns.length));
-                        if (!Pattern.compile(metric.getMessageRegex()).matcher(message).find()) {
+                        if (metric.getMessageRegex().length() > 0 && !Pattern.compile(metric.getMessageRegex()).matcher(message).find()) {
                             LOGGER.debug("Message does not match: " + metric.getMessageRegex() + " != " + message);
                             continue;
                         }

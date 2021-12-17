@@ -22,6 +22,14 @@
       <version>1.0.0</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+
+
     <!-- First declare the APIs we depend on and need for compilation.
             All of them are provided by JBoss EAP -->
 
