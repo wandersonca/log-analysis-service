@@ -12,6 +12,6 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Build with Maven and Docker
-      run: ./build.sh
+      run: .github/workflows/build.sh
     - name: Test with Docker Compose
-      run: ./integration-test.sh
+      run: .github/workflows/integration-test.sh

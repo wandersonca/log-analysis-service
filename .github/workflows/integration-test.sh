@@ -1,8 +1,5 @@
 #!/bin/sh
 set -e
-trap "echo Caught failure!" EXIT
-
-set -e
 
 # Start WildFly server
 docker compose up -d
