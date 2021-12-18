@@ -33,7 +33,7 @@
         <tbody>
             <% ArrayList<Metric> list = (ArrayList<Metric>) request.getAttribute("metrics");
                 if (list.size() == 0) {
-                    out.println("<tr><td colspan=\"6\">No Metrics Found</td></tr>");
+                    out.println("<tr><td colspan=\"7\">No Metrics Found</td></tr>");
                 } else {
                     for (Metric metric : list) {
                     out.println("<tr class=\"align-middle\">"+

@@ -42,9 +42,9 @@ public class LogMDB implements MessageListener {
         cal.set(Calendar.MONTH, Integer.parseInt(date.substring(0, 2)) - 1); // month is 0-based
         cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(4, 6)));
         cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.substring(0, 2)));
-        cal.set(Calendar.MINUTE, Integer.parseInt(time.substring(2, 4)));
-        cal.set(Calendar.SECOND, 0); // Round to the nearest minute
-        cal.set(Calendar.MILLISECOND, 0); // Round to the nearest minute
+        cal.set(Calendar.MINUTE, 0); // Round to the top of the hour
+        cal.set(Calendar.SECOND, 0); // Round to the top of the hour
+        cal.set(Calendar.MILLISECOND, 0); // Round to the top of the hour
         return cal.getTime();
     }
 

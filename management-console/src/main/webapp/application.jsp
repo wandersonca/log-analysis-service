@@ -16,7 +16,7 @@
         <tbody>
             <% ArrayList<Application> list = (ArrayList<Application>) request.getAttribute("apps");
                     if(list.size() == 0){
-                        out.println("<tr><td colspan=\"4\">No Applications Found</td></tr>"); 
+                        out.println("<tr><td colspan=\"5\">No Applications Found</td></tr>"); 
                     } else {
                         for (Application app : list) {
                             out.println("<tr class=\"align-middle\">"+

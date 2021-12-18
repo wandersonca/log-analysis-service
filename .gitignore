@@ -1,3 +1,5 @@
 target/
 .vscode/
 todo.yaml
+project_report*
+readme.txt

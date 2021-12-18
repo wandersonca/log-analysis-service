@@ -37,7 +37,7 @@
                     } else {
                         for (MetricCount count : list) {
                             Date start =  new Date(count.getTimeInterval().getTime());
-                            Date end = new Date(start.getTime() + 60000); // + 1 minute
+                            Date end = new Date(start.getTime() + (60 * 60 * 1000)); // + 1 hour
                             out.println("<tr>"+
                                 "<td>"+count.getMetric().getApplication().getName()+"</td>"+
                                 "<td>"+count.getMetric().getName()+"</td>"+

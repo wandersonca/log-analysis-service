@@ -64,7 +64,7 @@ public class MetricCounter {
     @PostConstruct
     @Schedule(second = "*/60", minute = "*", hour = "*", persistent = false)
     private void updateCache() {
-        LOGGER.debug("Updating local list of metrics and applications from Database...");
+        LOGGER.info("Updating local list of metrics and applications from Database...");
         metricsByApplicationId.clear();
         for (Application application : applicationDAO.getApplications()) {
             LOGGER.debug("Updating metrics for application " + application.getName());
