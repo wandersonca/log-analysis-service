@@ -18,6 +18,11 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import org.jboss.logging.Logger;
 
+
+/**
+ * Singleton bean to process count log messages.
+ * @author Will Anderson
+ */
 @Singleton
 public class MetricCounter {
     private static final Logger LOGGER = Logger.getLogger(MetricCounter.class);
@@ -34,15 +39,28 @@ public class MetricCounter {
     private Map<Long, List<Metric>> metricsByApplicationId;
     private Map<String, MetricCount> metricCounts;
 
+    /**
+     * Initialize the bean.
+     */
     MetricCounter() {
         metricCounts = new ConcurrentHashMap<String, MetricCount>();
         metricsByApplicationId = new HashMap<Long, List<Metric>>();
     }
 
+    /**
+     * Get the metrics by application ID.
+     * @param applicationId The application ID.
+     * @return The metrics.
+     */
     public List<Metric> getMetricsByApplicationId(long applicationId) {
         return metricsByApplicationId.get(applicationId);
     }
 
+
+    /**
+     * Update the metric and application cached objects.
+     * Runs every 60 seconds.
+     */
     @PostConstruct
     @Schedule(second = "*/60", minute = "*", hour = "*", persistent = false)
     private void updateCache() {
@@ -58,6 +76,10 @@ public class MetricCounter {
         }
     }
 
+    /**
+     * Save the metric count to the database.
+     * Runs every 15 seconds.
+     */
     @Schedule(second = "*/15", minute = "*", hour = "*", persistent = false)
     private void saveStats() {
         LOGGER.info("Saving stats to the Database...");
@@ -68,6 +90,11 @@ public class MetricCounter {
         metricCounts.clear();
     }
 
+    /**
+     * Increment the metric count for the given metric.
+     * @param metric The metric.
+     * @param date The date.
+     */
     public void incrementMetric(Metric metric, Date date) {
         LOGGER.debug("Incrementing metric " + metric.getName() + " for date " + date);
         String key = metric.getId() + "-" + date.toString();

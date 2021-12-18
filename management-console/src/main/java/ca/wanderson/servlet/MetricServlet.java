@@ -1,19 +1,21 @@
 package ca.wanderson.servlet;
 
+import ca.wanderson.persistance.ApplicationDAO;
+import ca.wanderson.persistance.MetricDAO;
+import ca.wanderson.persistance.model.Metric;
 import java.io.IOException;
-
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.RequestDispatcher;
 
-import ca.wanderson.persistance.model.Metric;
-import ca.wanderson.persistance.ApplicationDAO;
-import ca.wanderson.persistance.MetricDAO;
-
+/**
+ * Metric Servlet
+ * @author Will Anderson
+ */
 @WebServlet("/metric")
 public class MetricServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -24,6 +26,11 @@ public class MetricServlet extends HttpServlet {
     @EJB
     private ApplicationDAO ApplicationDAO;
 
+    /**
+     * Renders the metric page.
+     * @param request The request.
+     * @param response The response.
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("apps", ApplicationDAO.getApplications());
@@ -38,6 +45,11 @@ public class MetricServlet extends HttpServlet {
         resultView.forward(request, response);
     }
 
+    /**
+     * Creates a new metric, then renders the metric page.
+     * @param request The request.
+     * @param response The response.
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Metric metric = new Metric();
@@ -50,6 +62,11 @@ public class MetricServlet extends HttpServlet {
         doGet(request, response);
     }
 
+    /**
+     * Deletes a new metric, then renders the metric page.
+     * @param request The request.
+     * @param response The response.
+     */
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Long id = Long.parseLong(request.getParameter("metricid"));
