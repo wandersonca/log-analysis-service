@@ -203,7 +203,7 @@
                     <managed-scheduled-executor-service name="default" jndi-name="java:jboss/ee/concurrency/scheduler/default" context-service="default" hung-task-threshold="60000" keepalive-time="3000"/>
                 </managed-scheduled-executor-services>
             </concurrent>
-            <default-bindings context-service="java:jboss/ee/concurrency/context/default" datasource="java:/MySqlDS" jms-connection-factory="java:jboss/DefaultJMSConnectionFactory" managed-executor-service="java:jboss/ee/concurrency/executor/default" managed-scheduled-executor-service="java:jboss/ee/concurrency/scheduler/default" managed-thread-factory="java:jboss/ee/concurrency/factory/default"/>
+            <default-bindings context-service="java:jboss/ee/concurrency/context/default" datasource="java:/MySqlDS" jms-connection-factory="java:jboss/RemoteJmsXA" managed-executor-service="java:jboss/ee/concurrency/executor/default" managed-scheduled-executor-service="java:jboss/ee/concurrency/scheduler/default" managed-thread-factory="java:jboss/ee/concurrency/factory/default"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:ee-security:1.0"/>
         <subsystem xmlns="urn:jboss:domain:ejb3:6.0">
@@ -438,31 +438,10 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:messaging-activemq:8.0">
             <server name="default">
-                <statistics enabled="${wildfly.messaging-activemq.statistics-enabled:${wildfly.statistics-enabled:false}}"/>
-                <security-setting name="#">
-                    <role name="guest" send="true" consume="true" create-non-durable-queue="true" delete-non-durable-queue="true"/>
-                </security-setting>
-                <address-setting name="#" dead-letter-address="jms.queue.DLQ" expiry-address="jms.queue.ExpiryQueue" max-size-bytes="10485760" page-size-bytes="2097152" message-counter-history-day-limit="10"/>
-                <http-connector name="http-connector" socket-binding="http" endpoint="http-acceptor"/>
-                <http-connector name="http-connector-throughput" socket-binding="http" endpoint="http-acceptor-throughput">
-                    <param name="batch-delay" value="50"/>
-                </http-connector>
-                <in-vm-connector name="in-vm" server-id="0">
-                    <param name="buffer-pooling" value="false"/>
-                </in-vm-connector>
-                <http-acceptor name="http-acceptor" http-listener="default"/>
-                <http-acceptor name="http-acceptor-throughput" http-listener="default">
-                    <param name="batch-delay" value="50"/>
-                    <param name="direct-deliver" value="false"/>
-                </http-acceptor>
-                <in-vm-acceptor name="in-vm" server-id="0">
-                    <param name="buffer-pooling" value="false"/>
-                </in-vm-acceptor>
-                <jms-queue name="ExpiryQueue" entries="java:/jms/queue/ExpiryQueue"/>
-                <jms-queue name="DLQ" entries="java:/jms/queue/DLQ"/>
-                <connection-factory name="InVmConnectionFactory" entries="java:/ConnectionFactory" connectors="in-vm"/>
-                <connection-factory name="RemoteConnectionFactory" entries="java:jboss/exported/jms/RemoteConnectionFactory" connectors="http-connector"/>
-                <pooled-connection-factory name="activemq-ra" entries="java:/JmsXA java:jboss/DefaultJMSConnectionFactory" connectors="in-vm" transaction="xa"/>
+                <remote-connector name="remote-artemis" socket-binding="remote-artemis"/>
+                <pooled-connection-factory name="remote-artemis" entries="java:/RemoteJmsXA java:jboss/RemoteJmsXA" connectors="remote-artemis" ha="false" user="admin" password="admin" min-pool-size="15" max-pool-size="30" statistics-enabled="true">
+                    <inbound-config rebalance-connections="true" setup-attempts="-1" setup-interval="5000"/>
+                </pooled-connection-factory>
             </server>
         </subsystem>
         <subsystem xmlns="urn:wildfly:microprofile-config-smallrye:1.0"/>
@@ -470,6 +449,17 @@
         <subsystem xmlns="urn:wildfly:microprofile-metrics-smallrye:2.0" security-enabled="false" exposed-subsystems="*" prefix="${wildfly.metrics.prefix:wildfly}"/>
         <subsystem xmlns="urn:wildfly:microprofile-opentracing-smallrye:1.0"/>
         <subsystem xmlns="urn:jboss:domain:naming:2.0">
+            <bindings>
+                <external-context name="java:global/remoteContext" module="org.apache.activemq.artemis" class="javax.naming.InitialContext">
+                    <environment>
+                        <property name="java.naming.factory.initial" value="org.apache.activemq.artemis.jndi.ActiveMQInitialContextFactory"/>
+                        <property name="java.naming.provider.url" value="tcp://artemis:5445"/>
+                        <property name="connectionFactory.ConnectionFactory" value="tcp://artemis:5445"/>
+                        <property name="queue.logQueue" value="logQueue"/>
+                    </environment>
+                </external-context>
+                <lookup name="java:/logQueue" lookup="java:global/remoteContext/logQueue"/>
+            </bindings>
             <remote-naming/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:pojo:1.0"/>
@@ -581,6 +571,9 @@
         <socket-binding name="txn-status-manager" port="4713"/>
         <outbound-socket-binding name="mail-smtp">
             <remote-destination host="localhost" port="25"/>
+        </outbound-socket-binding>
+        <outbound-socket-binding name="remote-artemis">
+            <remote-destination host="artemis" port="5445"/>
         </outbound-socket-binding>
     </socket-binding-group>
 </server>

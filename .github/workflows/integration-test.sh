@@ -57,5 +57,5 @@ fi
 echo "Stopping WildFly..."
 docker compose down
 
-echo "Script finished. Exiting with $result"
-exit $result
+echo "Script finished. Exiting with $exit_code"
+exit $exit_code

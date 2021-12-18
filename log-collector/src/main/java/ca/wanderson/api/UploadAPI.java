@@ -2,9 +2,11 @@ package ca.wanderson.api;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.jms.JMSConnectionFactory;
 import javax.jms.JMSContext;
 import javax.jms.JMSDestinationDefinition;
 import javax.jms.JMSDestinationDefinitions;
+import javax.jms.JMSPasswordCredential;
 import javax.jms.MapMessage;
 import javax.jms.Queue;
 import javax.ws.rs.POST;
@@ -25,9 +27,11 @@ public class UploadAPI {
     private static final Logger LOGGER = Logger.getLogger(UploadAPI.class);
 
     @Inject
+    @JMSConnectionFactory("java:/RemoteJmsXA")
+    @JMSPasswordCredential(userName = "admin", password = "admin")
     private JMSContext context;
 
-    @Resource(lookup = "java:/queue/LogQueue")
+    @Resource(lookup = "java:global/remoteContext/logQueue")
     private Queue queue;
 
     /**

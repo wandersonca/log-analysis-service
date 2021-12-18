@@ -1,5 +1,7 @@
 version: "3.9"
 services:
+  artemis:
+    image: activemq-artemis:latest
   mysql:
     image: mysql:latest
     environment:
@@ -11,9 +13,11 @@ services:
       - 8080:8080
     depends_on:
       - mysql
+      - artemis
   management-console:
     image: management-console:latest
     ports:
       - 80:8080
     depends_on:
       - mysql
+      - artemis

@@ -11,18 +11,21 @@ import javax.ejb.MessageDriven;
 import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.MessageListener;
+import org.jboss.ejb3.annotation.ResourceAdapter;
 import org.jboss.logging.Logger;
-
 
 /**
  * Message driven bean to process incoming log messages.
  * @author Will Anderson
  */
 @MessageDriven(name = "LogQueue", activationConfig = {
-        @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "queue/LogQueue"),
+        @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:global/remoteContext/logQueue"),
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+        @ActivationConfigProperty(propertyName = "user", propertyValue = "admin"),
+        @ActivationConfigProperty(propertyName = "password", propertyValue = "admin"),
         @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
         @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "1") })
+@ResourceAdapter(value="remote-artemis")
 public class LogMDB implements MessageListener {
     private static final Logger LOGGER = Logger.getLogger(LogMDB.class);
 
