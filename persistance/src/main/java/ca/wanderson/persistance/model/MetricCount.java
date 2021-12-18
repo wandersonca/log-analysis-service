@@ -1,4 +1,4 @@
-package ec.finalproject.persistance.model;
+package ca.wanderson.persistance.model;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package ec.finalproject.api;
+package ca.wanderson.api;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

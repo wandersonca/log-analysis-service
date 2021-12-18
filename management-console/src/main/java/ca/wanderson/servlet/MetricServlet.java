@@ -1,4 +1,4 @@
-package ec.finalproject.servlet;
+package ca.wanderson.servlet;
 
 import java.io.IOException;
 
@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.RequestDispatcher;
 
-import ec.finalproject.persistance.model.Metric;
-import ec.finalproject.persistance.ApplicationDAO;
-import ec.finalproject.persistance.MetricDAO;
+import ca.wanderson.persistance.model.Metric;
+import ca.wanderson.persistance.ApplicationDAO;
+import ca.wanderson.persistance.MetricDAO;
 
 @WebServlet("/metric")
 public class MetricServlet extends HttpServlet {

@@ -1,6 +1,6 @@
 <%@ include file="header.jsp" %>
-<%@ page import="ec.finalproject.persistance.model.Metric" %>
-<%@ page import="ec.finalproject.persistance.model.Application" %>
+<%@ page import="ca.wanderson.persistance.model.Metric" %>
+<%@ page import="ca.wanderson.persistance.model.Application" %>
 <%@ page import="java.util.ArrayList" %>
 <div class="container mt-3">
     <h3>Metrics</h3>

@@ -2,13 +2,13 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>ec.finalproejct</groupId>
+    <groupId>ca.wanderson</groupId>
     <artifactId>finalproject-parent</artifactId>
     <version>1.0.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <groupId>ec.final</groupId>
+  <groupId>ca.wanderson</groupId>
   <artifactId>management-console</artifactId>
   <packaging>war</packaging>
 
@@ -17,7 +17,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>ec.final</groupId>
+      <groupId>ca.wanderson</groupId>
       <artifactId>persistance</artifactId>
       <version>1.0.0</version>
     </dependency>

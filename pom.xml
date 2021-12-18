@@ -10,7 +10,7 @@
         <version>35</version>
     </parent>
 
-    <groupId>ec.finalproejct</groupId>
+    <groupId>ca.wanderson</groupId>
     <artifactId>finalproject-parent</artifactId>
     <version>1.0.0</version>
 

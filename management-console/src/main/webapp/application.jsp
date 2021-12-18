@@ -1,5 +1,5 @@
 <%@ include file="header.jsp" %>
-<%@ page import="ec.finalproject.persistance.model.Application" %>
+<%@ page import="ca.wanderson.persistance.model.Application" %>
 <%@ page import="java.util.ArrayList" %>
 <div class="container mt-3">
     <h3>Currently Registered Applications</h3>

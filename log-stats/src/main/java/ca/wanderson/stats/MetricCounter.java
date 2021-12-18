@@ -1,11 +1,11 @@
-package ec.finalproject.stats;
+package ca.wanderson.stats;
 
-import ec.finalproject.persistance.ApplicationDAO;
-import ec.finalproject.persistance.MetricCountDAO;
-import ec.finalproject.persistance.MetricDAO;
-import ec.finalproject.persistance.model.Application;
-import ec.finalproject.persistance.model.Metric;
-import ec.finalproject.persistance.model.MetricCount;
+import ca.wanderson.persistance.ApplicationDAO;
+import ca.wanderson.persistance.MetricCountDAO;
+import ca.wanderson.persistance.MetricDAO;
+import ca.wanderson.persistance.model.Application;
+import ca.wanderson.persistance.model.Metric;
+import ca.wanderson.persistance.model.MetricCount;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;

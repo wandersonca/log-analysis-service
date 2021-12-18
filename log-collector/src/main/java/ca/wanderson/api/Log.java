@@ -1,4 +1,4 @@
-package ec.finalproject.api;
+package ca.wanderson.api;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;

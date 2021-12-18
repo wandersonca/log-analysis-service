@@ -1,6 +1,6 @@
-package ec.finalproject.stats;
+package ca.wanderson.stats;
 
-import ec.finalproject.persistance.model.Metric;
+import ca.wanderson.persistance.model.Metric;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;

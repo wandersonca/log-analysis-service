@@ -1,4 +1,4 @@
-package ec.finalproject.servlet;
+package ca.wanderson.servlet;
 
 import java.io.IOException;
 
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.RequestDispatcher;
 
-import ec.finalproject.persistance.model.Application;
-import ec.finalproject.persistance.ApplicationDAO;
+import ca.wanderson.persistance.model.Application;
+import ca.wanderson.persistance.ApplicationDAO;
 
 @WebServlet("/application")
 public class ApplicationServlet extends HttpServlet {

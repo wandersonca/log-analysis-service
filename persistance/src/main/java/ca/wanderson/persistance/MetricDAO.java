@@ -1,6 +1,6 @@
-package ec.finalproject.persistance;
+package ca.wanderson.persistance;
 
-import ec.finalproject.persistance.model.Metric;
+import ca.wanderson.persistance.model.Metric;
 import java.util.List;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;

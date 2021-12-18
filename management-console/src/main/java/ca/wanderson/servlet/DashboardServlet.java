@@ -1,9 +1,9 @@
-package ec.finalproject.servlet;
+package ca.wanderson.servlet;
 
-import ec.finalproject.persistance.ApplicationDAO;
-import ec.finalproject.persistance.MetricCountDAO;
-import ec.finalproject.persistance.MetricDAO;
-import ec.finalproject.persistance.model.MetricCount;
+import ca.wanderson.persistance.ApplicationDAO;
+import ca.wanderson.persistance.MetricCountDAO;
+import ca.wanderson.persistance.MetricDAO;
+import ca.wanderson.persistance.model.MetricCount;
 
 import java.io.IOException;
 import java.util.List;
