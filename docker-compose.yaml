@@ -7,13 +7,17 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_DATABASE: "logs-database"
+  log-stats:
+    image: log-stats:latest
+    depends_on:
+      - mysql
+      - artemis
   log-collector:
     image: log-collector:latest
     ports:
       - 8080:8080
     depends_on:
-      - mysql
-      - artemis
+      - log-stats
   management-console:
     image: management-console:latest
     ports:

@@ -103,5 +103,6 @@ public class MetricCounter {
         } else {
             metricCounts.put(key, new MetricCount(key, date, metric, 1));
         }
+        LOGGER.info("Running total for key: " + key + ": " + metricCounts.get(key).getCount());
     }
 }
