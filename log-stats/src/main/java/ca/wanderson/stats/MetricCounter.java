@@ -79,15 +79,21 @@ public class MetricCounter {
     /**
      * Save the metric count to the database.
      * Runs every 15 seconds.
+     * @throws InterruptedException
      */
     @Schedule(second = "*/15", minute = "*", hour = "*", persistent = false)
-    private void saveStats() {
+    private void saveStats() throws InterruptedException {
         LOGGER.info("Saving stats to the Database...");
-        for (MetricCount metricCount : metricCounts.values()) {
-            LOGGER.info("Saving metric count for: " + metricCount.getId() + ": " + metricCount.getCount());
-            metricCountDAO.saveMetricCount(metricCount);
+        Thread.sleep((long)(Math.random() * 1000));
+        for (Map.Entry<String, MetricCount> entry : metricCounts.entrySet()) {
+            LOGGER.info("Saving metric count for: " + entry.getValue().getId() + ": " + entry.getValue().getCount());
+            try {
+                metricCountDAO.saveMetricCount(entry.getValue());
+                metricCounts.remove(entry.getKey());
+            } catch (Exception e) {
+                LOGGER.error("Error saving metric count, will try again next time.");
+            }
         }
-        metricCounts.clear();
     }
 
     /**

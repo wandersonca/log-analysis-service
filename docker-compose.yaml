@@ -9,6 +9,8 @@ services:
       MYSQL_DATABASE: "logs-database"
   log-stats:
     image: log-stats:latest
+    deploy:
+      replicas: 2
     depends_on:
       - mysql
       - artemis
