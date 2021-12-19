@@ -49,9 +49,6 @@ public class DashboardServlet extends HttpServlet {
             request.setAttribute("counts", metricCountDAO.getMetricCountsByMetricId(Long.parseLong(metricId)));
         } else {
             List<MetricCount> metricCount = metricCountDAO.getMetricCounts();
-            for(MetricCount mc : metricCount) {
-                LOGGER.error("Metric Count: " + mc.getMetric().getName() + " " + mc.getCount());
-            }
             request.setAttribute("counts", metricCount);
         }
         resultView.forward(request, response);
