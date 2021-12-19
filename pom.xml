@@ -16,9 +16,8 @@
 
     <packaging>pom</packaging>
 
-    <name>Quickstart: Parent</name>
-    <description>Quickstart's parent</description>
-    <url>https://github.com/wildfly/quickstart</url>
+    <name>log-analysis-service-parent</name>
+    <url>https://github.com/wandersonca/log-analysis-service</url>
 
 
     <properties>
@@ -40,7 +39,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-jakartaee8-with-tools</artifactId>

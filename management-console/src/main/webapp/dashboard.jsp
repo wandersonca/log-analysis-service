@@ -2,6 +2,7 @@
 <%@ page import="ca.wanderson.persistance.model.MetricCount" %>
 <%@ page import="ca.wanderson.persistance.model.Metric" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Map" %>
 <%@ page import="java.util.Date" %>
 <div class="container mt-3">
     <h3>Dashboard</h3>
@@ -19,6 +20,31 @@
                     }%>
         </select>
     </form>
+    <h4>Stats by Day:</h4>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Daily Count</th>
+                <th>Hourly Average</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% Map<String, Map<String,String>> stats = (Map<String, Map<String,String>>) request.getAttribute("stats");
+                    if(stats.size() == 0){
+                        out.println("<tr><td colspan=\"3\">No Collected Data</td></tr>"); 
+                    } else {
+                        for (Map.Entry<String, Map<String,String>> entry : stats.entrySet()) {
+                            out.println("<tr>"+
+                                "<td>"+entry.getKey()+"</td>"+
+                                "<td>"+entry.getValue().get("count")+"</td>"+
+                                "<td>"+entry.getValue().get("hourly-average")+"</td>"+
+                                "</tr>");
+                        }
+                    }%>
+        </tbody>
+    </table>
+    <h4>Hourly Data:</h4>
     <table class="table table-hover">
         <thead>
             <tr>
