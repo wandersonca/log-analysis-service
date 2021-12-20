@@ -38,7 +38,7 @@ if [[ $(echo $results | grep -c "<td>TestALL</td><td>ALL</td><td></td><td>Tue Au
   echo "TestALL failed"
   exit_code=1
 fi
-if [[ $(echo $results | grep -c "<td>TestINFORegex</td><td>INFO</td><td>Received</td><td>Tue Aug 09 20:00:00 UTC 2011 - Tue Aug 09 21:00:00 UTC 2011</td><td>1</td>") != "2" ]]; then
+if [[ $(echo $results | grep -c "<td>TestINFORegex</td><td>INFO</td><td>Received</td><td>Tue Aug 09 20:00:00 UTC 2011 - Tue Aug 09 21:00:00 UTC 2011</td><td>1</td>") != "1" ]]; then
   echo "TestINFORegex failed"
   exit_code=1
 fi
